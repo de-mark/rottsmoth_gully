@@ -165,17 +165,6 @@ class DAG {
     }
 
     getAllScenePreviews(){
-        // var stratifiedScenes = []
-
-        // for (let e of this.edges){
-        //     var newEdge = {
-        //         "child":e.child,
-        //         "parent":e.parent,
-        //     }
-        //     stratifiedScenes.push(newEdge);
-        // }
-
-        // return stratifiedScenes;
         return this.vertices;
     }
 
