@@ -8,10 +8,16 @@ var sceneTwo = exampleSeries.addNewScene("More Tests", "Seeing what happens with
 
 var sceneTwoPointFive = exampleSeries.addNewScene("This comes after two", "We'll try and link it to 1 to make sure we get an error", "Hopefully it works okay!");
 
+var alternateSceneTwo = exampleSeries.addNewScene("Testing again", "This should be an alternative path to two", "I'm not sure how to visualize this");
+
 console.log("---------------------------------------");
 console.log("Adding initial DAG nodes");
+console.log("One to two");
 exampleSeries.connectScenes(sceneOne, sceneTwo);
+console.log("Two to two point five");
 exampleSeries.connectScenes(sceneTwo, sceneTwoPointFive);
+console.log("One to alternative path two");
+exampleSeries.connectScenes(sceneOne, alternateSceneTwo);
 
 // This next attempt should return an error message in the console.
 console.log("---------------------------------------");
