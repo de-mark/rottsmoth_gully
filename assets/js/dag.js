@@ -46,11 +46,11 @@ class DAGNode {
 
 // ALSO NEED TO MAKE SURE NO CYCLES ARE BEING CREATED OR THAT THE EDGES AREN'T CONSTANTLY BEING ADDED
 class DAGEdge {
-    constructor(start=undefined,
-                end=undefined){
-        if (start && end) {
-            this.start = start;
-            this.end = end;
+    constructor(parent=undefined,
+                child=undefined){
+        if (parent && child) {
+            this.parent = parent;
+            this.child = child;
         }
     }
 }
@@ -78,15 +78,109 @@ class DAG {
         }
 
         this.vertices.push(newScene);
+
+        return newScene.id; 
+    }
+
+    checkIfConnectionExists(sceneOneId=undefined, sceneTwoId){
+        if (sceneOneId && sceneTwoId){
+            // Checking to see if this connection has ALREADY been added
+            // or if the reverse connection exists
+            // Since this is a DAG, we don't want the reverse combination
+            let filteredEdges = this.edges.filter((e) => ((e.parent == sceneOneId) && (e.child == sceneTwoId)) || 
+                                                         ((e.parent == sceneTwoId) && (e.child == sceneOneId)));
+            
+            if (filteredEdges.length != 0) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    kahnTopologicalSort(proposedEdges=this.edges){
+        let l = [];
+        let edgeCopy = proposedEdges.slice();
+        // We want a list of all the parentless nodes 
+        // NOTE: Should this be a set of all the nodes? Not just parents?
+        let allParents = new Set(this.edges.map((e) => e.parent));
+        let allChildren = new Set(this.edges.map((e) => e.child));
+        let s = [...allParents.difference(allChildren)];
+        
+        while (s.length > 0) {
+            let n = s.pop(0);
+            l.push(n);
+
+            for (let e of edgeCopy){
+                if (e.parent == n) {
+                    let m = e.child;
+                    
+                    let idx = edgeCopy.indexOf(e);
+                    edgeCopy.pop(idx);
+                    
+                    if (edgeCopy.filter((ed) => ed.child == m).length == 0) {
+                        s.push(m);
+                    }
+                }
+            }
+        }
+        
+        if (edgeCopy.length != 0){
+            return -1;
+        } else {
+            return l;
+        }
+    }
+
+    checkIfCycleWouldExist(sceneOneId, sceneTwoId){
+        let proposedNewEdge = new DAGEdge(sceneOneId, sceneTwoId);
+        let proposedEdgeSet = this.edges.slice();
+        proposedEdgeSet.push(proposedNewEdge);
+        return this.kahnTopologicalSort(proposedEdgeSet) == -1;
+    }
+
+    connectScenes(sceneOneId=undefined, sceneTwoId=undefined){
+        let sceneOne = this.getSceneByID(sceneOneId);
+        let sceneTwo = this.getSceneByID(sceneTwoId);
+
+        if (!sceneOne || !sceneTwo){
+            // If the user didn't provide the ID of a scene, we don't want to add the "connection"
+            // since it would corrupt the data
+            return;
+        } else if (this.checkIfConnectionExists(sceneOneId, sceneTwoId)) {
+            // If there's already an edge (or a reverse of this edge) we don't want to add it again
+            console.log("We didn't add this because it either it or an inverse version of it already exists");
+            return;
+        } else if (this.checkIfCycleWouldExist(sceneOneId, sceneTwoId)) {
+            // We also use Kahn Topological Sort to check if adding this edge would create a cycle
+            // since we don't want a cycle
+            console.log("We didn't add this because it would create a cycle");
+            return;
+        }else {
+            let newEdge = new DAGEdge(sceneOneId, sceneTwoId);
+            this.edges.push(newEdge);
+            console.log("Edge between", sceneOneId, "and", sceneTwoId, "successfully added.");
+        }
     }
 
     getAllScenePreviews(){
+        // var stratifiedScenes = []
+
+        // for (let e of this.edges){
+        //     var newEdge = {
+        //         "child":e.child,
+        //         "parent":e.parent,
+        //     }
+        //     stratifiedScenes.push(newEdge);
+        // }
+
+        // return stratifiedScenes;
         return this.vertices;
     }
 
-    getSceneInformation(uuid=undefined){
+    getSceneByID(uuid=undefined){
         if (uuid){
-            var filteredVertices = this.vertices.filter((v) => v.getId() == uuid);
+            var filteredVertices = this.vertices.filter((v) => v.id == uuid);
 
             if (filteredVertices.length == 0) {
                 return undefined;

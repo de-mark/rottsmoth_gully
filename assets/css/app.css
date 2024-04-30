@@ -1,0 +1,17 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: .7rem;
+}
+
+.scene-container {
+    display: inline-block;
+    width: 15rem;
+    border-radius: 50%;
+    background-color: seagreen;
+    padding: 2.5rem;
+    text-align: center;
+}
