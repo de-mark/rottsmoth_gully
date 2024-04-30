@@ -100,15 +100,16 @@ class DAG {
 
     kahnTopologicalSort(proposedEdges=this.edges){
         let l = [];
-        let edgeCopy = proposedEdges.slice();
+        let edgeCopy = [...proposedEdges];
         // We want a list of all the parentless nodes 
         // NOTE: Should this be a set of all the nodes? Not just parents?
-        let allParents = new Set(this.edges.map((e) => e.parent));
-        let allChildren = new Set(this.edges.map((e) => e.child));
+        let allParents = new Set(proposedEdges.map((e) => e.parent));
+        let allChildren = new Set(proposedEdges.map((e) => e.child));
         let s = [...allParents.difference(allChildren)];
         
         while (s.length > 0) {
-            let n = s.pop(0);
+            let n = s[0];
+            s.splice(0, 1);
             l.push(n);
 
             for (let e of edgeCopy){
@@ -116,7 +117,7 @@ class DAG {
                     let m = e.child;
                     
                     let idx = edgeCopy.indexOf(e);
-                    edgeCopy.pop(idx);
+                    edgeCopy.splice(idx, 1);
                     
                     if (edgeCopy.filter((ed) => ed.child == m).length == 0) {
                         s.push(m);
@@ -124,7 +125,7 @@ class DAG {
                 }
             }
         }
-        
+
         if (edgeCopy.length != 0){
             return -1;
         } else {
@@ -133,9 +134,9 @@ class DAG {
     }
 
     checkIfCycleWouldExist(sceneOneId, sceneTwoId){
-        let proposedNewEdge = new DAGEdge(sceneOneId, sceneTwoId);
-        let proposedEdgeSet = this.edges.slice();
-        proposedEdgeSet.push(proposedNewEdge);
+        let newEdge = new DAGEdge(sceneOneId, sceneTwoId);
+        let proposedEdgeSet = this.edges.length > 0 ? [...this.edges] : [];
+        proposedEdgeSet.push(newEdge);
         return this.kahnTopologicalSort(proposedEdgeSet) == -1;
     }
 
