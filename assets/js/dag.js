@@ -14,14 +14,14 @@ const generateUUIDv4 = function() {
 class DAGNode {
     constructor (title="New Scene", 
                 tagline="Scene Summary",
+                location="Location",
                 scene="Information about the scene goes here"){
         this.id = generateUUIDv4();
         this.title = title;
         this.tagline = tagline;
+        this.location = location;
         this.scene = scene;
     }
-
-    // GETTERS & SETTERS
 
     setTitle(newTitle) {
         if (newTitle) {
@@ -32,6 +32,12 @@ class DAGNode {
     setTagline(newTagline) {
         if (newTagline){
             this.getTagline = newTagline;
+        }
+    }
+
+    setLocation(newLocation) {
+        if (newLocation){
+            this.newLocation = newLocation;
         }
     }
 
@@ -47,10 +53,14 @@ class DAGNode {
 // ALSO NEED TO MAKE SURE NO CYCLES ARE BEING CREATED OR THAT THE EDGES AREN'T CONSTANTLY BEING ADDED
 class DAGEdge {
     constructor(parent=undefined,
-                child=undefined){
+                child=undefined,
+                edgeType="default",
+                optionDisplay="You decide to do a thing."){
         if (parent && child) {
             this.parent = parent;
             this.child = child;
+            this.edgeType = edgeType;
+            this.optionDisplay = optionDisplay;
         }
     }
 }
@@ -58,11 +68,16 @@ class DAGEdge {
 class DAG {
     constructor (seriesName="Untitled Series") {
         this.seriesName = seriesName;
+        this.currentLoc = undefined;
         this.vertices = [];
         this.edges = [];
     }
 
-    addNewScene(title=undefined, tagline=undefined, scene=undefined){
+    setCurrent(sceneId){
+        this.currentLoc = sceneId;
+    }
+
+    addNewScene(title=undefined, tagline=undefined, location=undefined, scene=undefined){
         var newScene = new DAGNode();
         
         if (title){
@@ -73,6 +88,10 @@ class DAG {
             newScene.setTagline(tagline);
         }
 
+        if (location){
+            newScene.setLocation(location);
+        }
+
         if (scene) {
             newScene.setScene(scene);
         }
@@ -80,6 +99,33 @@ class DAG {
         this.vertices.push(newScene);
 
         return newScene.id; 
+    }
+
+    getAllSceneOptions(sceneId){
+        if (sceneId) {
+            let options = this.edges.filter((e) => e.parent == sceneId);
+            return options;
+        }
+    }
+
+    getCurrentScene(){
+        if (this.currentLoc) {
+            let currentScene = this.vertices.filter((v) => v.id == this.currentLoc);
+
+            if (currentScene.length > 0) {
+                currentScene = currentScene[0];
+                
+                return {
+                    "current": currentScene,
+                    "connections": this.getAllSceneOptions(this.currentLoc)
+                }
+            }
+        } else {
+            return {
+                "error":"There currently aren't any scenes in your story!"
+            }
+        }
+        
     }
 
     checkIfConnectionExists(sceneOneId=undefined, sceneTwoId){
@@ -98,6 +144,8 @@ class DAG {
         return false;
     }
 
+    // Followed algorithm instructions on wikipedia:
+    // https://en.wikipedia.org/wiki/Topological_sorting
     kahnTopologicalSort(proposedEdges=this.edges){
         let l = [];
         let edgeCopy = [...proposedEdges];
@@ -133,6 +181,8 @@ class DAG {
         }
     }
 
+    // Uses Kahn Topological Sort to see if adding the edge will
+    // create a cycle. Since this is a DAG, we don't want cycles.
     checkIfCycleWouldExist(sceneOneId, sceneTwoId){
         let newEdge = new DAGEdge(sceneOneId, sceneTwoId);
         let proposedEdgeSet = this.edges.length > 0 ? [...this.edges] : [];
@@ -140,7 +190,9 @@ class DAG {
         return this.kahnTopologicalSort(proposedEdgeSet) == -1;
     }
 
-    connectScenes(sceneOneId=undefined, sceneTwoId=undefined){
+    // Adds an edge to our edge collection; verifies that the node
+    // (1) isn't already there or (2) will not cause a cycle.
+    connectScenes(sceneOneId=undefined, sceneTwoId=undefined, edgeType="default", optionDisplay="You choose to do a thing."){
         let sceneOne = this.getSceneByID(sceneOneId);
         let sceneTwo = this.getSceneByID(sceneTwoId);
 
@@ -158,9 +210,10 @@ class DAG {
             console.log("We didn't add this because it would create a cycle");
             return;
         }else {
-            let newEdge = new DAGEdge(sceneOneId, sceneTwoId);
+            let newEdge = new DAGEdge(sceneOneId, sceneTwoId, edgeType, optionDisplay);
             this.edges.push(newEdge);
-            console.log("Edge between", sceneOneId, "and", sceneTwoId, "successfully added.");
+            console.log(edgeType, "edge between", sceneOneId, "and", sceneTwoId, "successfully added.");
+            console.log("Option will display as", optionDisplay);
         }
     }
 
