@@ -15,9 +15,57 @@ body {
     padding: 2.5rem;
     text-align: center;
 }
+#page-header {
+    margin-top: 15px;
+    padding: 25px 0;
+}
+
+#main-interface {
+    padding: 50px 0;
+}
+
+#character-panel {
+    padding: 50px 0;
+}
 
 #char-profile-pic {
     border-radius: 50%;
     width: 100px;
     height:100px;
+}
+
+.bar-background {
+    height: 30px;
+    border-radius: 15px;
+    width: 100%;
+    background-color: black;
+    padding: 5px;
+    margin: 5px 0;
+}
+
+.bar-foreground {
+    position: relative;
+    height: 20px;
+    border-radius: 15px;
+    /* If not 100%*/
+    /* border-radius: 15px 0 0 15px; */
+    background-color: steelblue;
+    text-align: center;
+    padding: 5px;
+    font-size: .65rem;
+    font-weight: bolder;
+}
+
+.bar-foreground p{
+    margin: 0px;
+    position: relative;
+    top: -2.5px;
+}
+
+#char-health-interior {
+    background-color: red;
+}
+
+#char-sanity-interior {
+    background-color: green;
 }
