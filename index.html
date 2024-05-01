@@ -15,36 +15,21 @@
             <div class="col-3">
                 <h1>Logo</h1>
             </div>
-            <div class="col-9 text-end">
+            <div class="col-8 text-end">
                 Other stuff
             </div>
         </div>
         <div class="row">
-            <div id="main-interface" class="col-9 bg-primary">
+            <div id="main-interface" class="col-9 bg-primary px-4">
                 <!-- Scene/Vertex display will go here -->
             </div>
-            <div id="character-panel" class="col-3 bg-secondary">
-                <div class="text-center">
-                    <img id="char-profile-pic" src="./assets/imgs/profile_pic_default.png">
-                </div>
-                <div>
-                    <h3 id="char-name">Character Name</h3>
-                    <h5 id="char-type">Class Type with hovertext of summary</h5>
-                    <div id="char-health-container" class="bar-background">
-                        <div id="char-health-interior" class="bar-foreground"><p><span id="char-health-num">10/10</span> Health</p></div>
-                    </div>
-                    <div id="char-sanity-container" class="bar-background">
-                        <div id="char-sanity-interior" class="bar-foreground"><p><span id="char-sanity-num">10/10</span> Sanity</p></div>
-                    </div>
-                    <p id=""><b>Physique</b></p>
-                    <p><b>Perception</b></p>
-                    <p><b>Willpower</b></p>
-                    <p>Icons of abilities with hovertext of explanation</p>
-                </div>
+            <div id="character-panel" class="col-3 bg-secondary px-2">
+                <!-- Character will be populated here after creation -->
             </div>
         </div>
     </div>
 
+    <script src="./assets/js/protagonist.js"></script>
     <script src="./assets/js/dag.js"></script>
     <script src="./assets/js/app.js"></script>
 </body>

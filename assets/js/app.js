@@ -1,7 +1,85 @@
 const interfaceElement = document.getElementById("main-interface");
+const characterPanelElement = document.getElementById("character-panel");
 const exampleSeries = new DAG("Example Series");
+const protag = new Protagonist();
 
-const charPercep = 2;
+// LIST OF EDGETYPES:
+// --------------------------------------------
+// can_use_gun
+
+// is_scientist
+// is_technician
+// is_slippery
+// is_intimidate
+// is_vision
+// is_appraise
+// is_finance
+// is_classified
+
+// low_sanity
+// high_sanity
+
+// is_diver
+// is_occult
+// is_demo
+
+// perception_high >= 3
+// perception_mid  >= 2
+
+// physique_high >= 3
+// physique_mid >= 2
+
+const initCharacterPanel = () => {
+    characterPanelElement.innerHTML = `
+    <div class="text-center">
+        <img id="char-profile-pic" src="./assets/imgs/profile_pic_${protag.background}.png">
+    </div>
+    <div>
+        <div class="text-center">
+            <h4 id="char-name">${protag.name.toUpperCase()}</h3>
+            <h6 id="char-type">${protag.backgroundDisplay}</h5>
+        </div>
+        <div id="char-health-container" class="bar-background">
+            <div id="char-health-interior" class="bar-foreground"><p><span id="char-health-num">${protag.currHealth}/${protag.maxHealth}</span> Health</p></div>
+        </div>
+        <div id="char-sanity-container" class="bar-background">
+            <div id="char-sanity-interior" class="bar-foreground"><p><span id="char-sanity-num">${protag.currSanity}/${protag.maxSanity}</span> Sanity</p></div>
+        </div>
+        <div class="char-stats-container">
+            <p id="char-physique-container"><b>Physique</b> <span id="char-physique-num">${protag.physique}</span></p>
+            <p id="char-perception-container"><b>Perception</b> <span id="char-perception-num">${protag.perception}</span></p>
+            <p id="char-willpower-container"><b>Willpower</b> <span id="char-willpower-num">${protag.willpower}</span></p>
+        </div>
+        <hr>
+        <div id="character-skills">
+            <h6>Skills</h6>
+            <div class="char-skills-container">
+                <p>${protag.primarySkill}</p>
+                <p>${protag.secondarySkill}</p>
+        `
+        
+        if (protag.canUseGun){
+            characterPanelElement.innerHTML += "<p>Trained in firearms</p>";
+        }
+
+
+        characterPanelElement.innerHTML += `</div>
+    </div>`
+}
+
+const generateCharacter = (name="Danvers", 
+                           physique=2,
+                           perception=1,
+                           willpower=1,
+                           backgroundBroad="traveller",
+                           backgroundSpecific="vision",
+                           secondarySkill="diving") => {
+    protag.setName(name);
+    protag.setStats(physique, perception, willpower);
+    protag.setClass(backgroundBroad, backgroundSpecific);
+    protag.setSecondarySkill(secondarySkill);
+    initCharacterPanel();
+}
 
 const generateExampleSeries = () => {
     var sceneOne = exampleSeries.addNewScene("1. Example Title", "Tagline Example", "<p>Scene goes here</p><p>Need to incorporate HTML code.</p>");
@@ -23,7 +101,7 @@ const generateExampleSeries = () => {
     console.log("Two to two point five");
     exampleSeries.connectScenes(sceneTwo, sceneTwoPointFive, "default", "Go from two to two point five");
     console.log("One to alternative path two");
-    exampleSeries.connectScenes(sceneOne, alternateSceneTwo, "perception_high", "[High perception] Advance to alternate path");
+    exampleSeries.connectScenes(sceneOne, alternateSceneTwo, "perception_high", "<b>[High perception]</b> Advance to alternate path");
     
     // This next attempt should return an error message in the console.
     console.log("---------------------------------------");
@@ -76,20 +154,39 @@ const displayCurrentScene = () => {
         if (sceneConnections.length > 0){
             // interfaceElement.innerHTML += `<ol>`
             let interfaceOptionsDiv = document.createElement("div");
+            interfaceOptionsDiv.classList.add("main-interface-options");
             interfaceOptionsDiv.innerHTML = "<h6>Options:</h6>";
 
             sceneConnections.forEach((c) => {
                 if ((c.edgeType == "default") ||
-                    (c.edgeType == "perception" && charPercep > 1)){
+                    (c.edgeType == "is_finance" && protag.primarySkill == "Finance") ||
+                    (c.edgeType == "is_classified" && protag.primarySkill == "Classified") ||
+                    (c.edgeType == "is_scientist" && protag.primarySkill == "Scientist") ||
+                    (c.edgeType == "is_technician" && protag.primarySkill == "Technician") ||
+                    (c.edgeType == "is_slippery" && protag.primarySkill == "Slippery") ||
+                    (c.edgeType == "is_initimidate" && protag.primarySkill == "Intimidate") ||
+                    (c.edgeType == "is_vision" && protag.primarySkill == "Visions") ||
+                    (c.edgeType == "is_appraise" && protag.primarySkill == "Appraise") || 
+                    (c.edgeType == "can_use_gun" && protag.canUseGun) ||
+                    (c.edgeType == "is_diver" && protag.secondarySkill == "Diving") ||
+                    (c.edgeType == "is_demo" && protag.secondarySkill == "Demolitions") ||
+                    (c.edgeType == "is_occult" && protag.secondarySkill == "Occult") ||
+                    (c.edgeType == "low_sanity"  && protag.currSanity <= 4) ||
+                    (c.edgeType == "high_sanity" && protag.currSanity >= 6) ||
+                    (c.edgeType == "perception_high" && protag.perception >= 3) ||
+                    (c.edgeType == "perception_mid" && protag.perception >= 2) ||
+                    (c.edgeType == "physique_high" && protag.physique >= 3) ||
+                    (c.edgeType == "physique_mid" && protag.physique >= 2) ||
+                    (c.edgeType == "willpower_high" && protag.perception >= 3) ||
+                    (c.edgeType == "willpower_mid" && protag.perception >= 2)
+                    ){
                         let newOption = document.createElement("div");
-                        newOption.innerHTML = c.optionDisplay;
+                        newOption.innerHTML = `▶ ${c.optionDisplay}`;
                         newOption.onclick = () => nextScene(c.child);
 
                         interfaceOptionsDiv.appendChild(newOption);
-                        // interfaceElement.innerHTML += `<li onclick="nextScene('${c.child}')">${c.optionDisplay}</li>`
                 }
             })
-            // interfaceElement.innerHTML += `</ol>`
             newInterface.appendChild(interfaceOptionsDiv);
         }
 
@@ -100,21 +197,6 @@ const displayCurrentScene = () => {
 
 
 generateExampleSeries();
+generateCharacter();
 displayCurrentScene();
-
-
-// console.log(exampleSeries.getAllScenePreviews())
-
-// exampleSeries.getAllScenePreviews().forEach((s) => {
-//     interfaceElement.innerHTML += `
-//     <div class="scene-container">
-//         <p><i>${s.id}</i></p>
-//         <h3>${s.title}</h3>
-//         <h4>${s.tagline}</h4>
-//         <p>${s.scene}</p>
-//     </div>
-//     `
-// });
-
-
 
