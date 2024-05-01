@@ -67,6 +67,62 @@ const initCharacterPanel = () => {
     </div>`
 }
 
+const getCharacterBackground = () => {
+    interfaceElement.innerHTML = "<h3>What brings you to Rottsmoth Gully?</h3>";
+
+    for (let c of CHARACTER_SELECT_JSON) {
+        let newContainer = document.createElement("div");
+        newContainer.classList.add("row", "align-items-center", "py-3");
+        
+        let charIconContainer = document.createElement("div");
+        charIconContainer.classList.add("col-4", "text-center");
+        charIconContainer.innerHTML = `
+            <img id="char-profile-pic" src="./assets/imgs/profile_pic_${c.imgName}.png">
+            <h5>${c.displayName}</h5>`;
+
+        newContainer.appendChild(charIconContainer);
+        
+        let charDescContainer = document.createElement("div");
+        charDescContainer.classList.add("col-8");
+        charDescContainer.innerHTML = `
+                <p>${c.description}</p>
+                <hr>
+                <p><b>Stats:</b> ${c.stats}</p>
+                <p><b>Trained in Firearms:</b> ${c.guns}</p>
+                <p><b>Skill: ${c.skillName}</b> ${c.skillDescription}</p>
+        `;
+
+        newContainer.appendChild(charDescContainer);
+
+        let selectButtonContainer = document.createElement("button");
+        selectButtonContainer.classList.add("btn", "btn-dark", "btn-lg", "btn-block");
+        selectButtonContainer.style.backgroundColor = "#800020";
+        selectButtonContainer.onclick = () => getCharacterStats(c.backgroundGeneral, c.backgroundSpecific);
+        selectButtonContainer.innerHTML = `Select ${c.displayName}`;
+        newContainer.appendChild(selectButtonContainer);
+
+        interfaceElement.appendChild(newContainer);
+    }
+}
+
+const getCharacterStats = (backgroundBroad, backgroundSpecific) => {
+    console.log("CHECKING TO SEE WHAT WE GET");
+    console.log("BACKGROUND BROAD", backgroundBroad);
+    console.log("BACKGROUND SPECIFIC", backgroundSpecific);
+}
+
+const getCharacterSecondSkill = (backgroundBroad, backgroundSpecific, physique, perception, willpower) => {
+
+}
+
+const getCharacterName = (backgroundBroad, backgroundSpecific, physique, perception, willpower, secondarySkill) => {
+
+}
+
+const getCharacterConfirmation = (backgroundBroad, backgroundSpecific, physique, perception, willpower, secondarySkill, name) => {
+
+}
+
 const generateCharacter = (name="Danvers", 
                            physique=2,
                            perception=1,
@@ -197,6 +253,6 @@ const displayCurrentScene = () => {
 
 
 generateExampleSeries();
-generateCharacter();
-displayCurrentScene();
+// generateCharacter();
+// displayCurrentScene();
 

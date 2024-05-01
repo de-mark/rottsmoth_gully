@@ -11,7 +11,7 @@
 <body>
     
     <div class="container">
-        <div id="page-header" class="row bg-secondary">
+        <div id="page-header" class="row">
             <div class="col-3">
                 <h1>Logo</h1>
             </div>
@@ -20,15 +20,24 @@
             </div>
         </div>
         <div class="row">
-            <div id="main-interface" class="col-9 bg-primary px-4">
-                <!-- Scene/Vertex display will go here -->
+            <div id="main-interface" class="col-9 px-4">
+                <h2>Welcome to Rottsmoth Gully; the growing waste management center of the Americas</h2>
+                <p>Nestled in the most barren wastelands of the US Southwest, Rottsmoth Gully was a land of pioneers, outcasts, and criminals who couldn't afford to live in places with basic ammenities like water and reasonable temperatures.</p>
+                <p>Owing to its distance from the rest of civilized society and the supposed futility of using it for anything else, the place was designated for waste management purposes. Now, the town is just as full of recyling centers, junkyards, and compost facilities as it is of criminals and ne'er-do-wells.</p>
+                <p>But there's something else lurking in Rottsmoth Gully. Something ancient, powerful,and brimming with apocalyptic fury...</p>
+                <button class="btn btn-dark btn-lg btn-block" style="width:100%; background-color: #800020;" onclick="getCharacterBackground()">Let's go dumpster diving!</button>
             </div>
-            <div id="character-panel" class="col-3 bg-secondary px-2">
-                <!-- Character will be populated here after creation -->
+            <div id="character-panel" class="col-3 px-2" style="background-color:#800020; color: #FFF; border-radius: 15px;">
+                <h3 class="text-center">Non-Linear Storytelling with Directed Acyclic Graphs (DAGs)</h3>
+                <p>This is a super simple prototype for how DAG Data Structures can be used to set up non-linear storylines for games and such.</p>
+                <p>It was developed as a final project for a data structures course in a limited amount of time, so it's not super complex, the images are 5 second ms paint doodles, and the story isn't finished.</p>
+                <p>However.</p>
+                <p>I wanted to experiment with using DAG edges to check for flags that could open up different dialog / story routes. So that's basically what this is.</p>
             </div>
         </div>
     </div>
 
+    <script src="./assets/js/characterSelect.js"></script>
     <script src="./assets/js/protagonist.js"></script>
     <script src="./assets/js/dag.js"></script>
     <script src="./assets/js/app.js"></script>

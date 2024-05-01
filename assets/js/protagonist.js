@@ -63,7 +63,8 @@ class Protagonist {
                     this.tagline = "It was supposed to be a simple museum heist. Then the patron disappeared before you could deliver the artifact--which turned out to be cursed. Now, you're blacking up and waking up in Rottsmoth Gully of all places, wondering how you got there...";
                     this.primarySkill = "Slippery";
                     this.primarySkillDescription = "Locked doors and zipped pockets may be an obstacle for some, but not you. You've mastered the art of manipulation, subterfuge, and infiltration."
-                    this.physique += 2;
+                    this.physique += 1;
+                    this.perception += 1;
                     this.canUseGun = false;
                 } else {
                     this.background = "enforcer";
