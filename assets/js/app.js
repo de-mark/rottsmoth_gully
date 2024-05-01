@@ -97,6 +97,8 @@ const getCharacterBackground = () => {
         let selectButtonContainer = document.createElement("button");
         selectButtonContainer.classList.add("btn", "btn-dark", "btn-lg", "btn-block");
         selectButtonContainer.style.backgroundColor = "#800020";
+        selectButtonContainer.style.fontSize = ".7rem";
+
         selectButtonContainer.onclick = () => getCharacterStats(c.backgroundGeneral, c.backgroundSpecific);
         selectButtonContainer.innerHTML = `Select ${c.displayName}`;
         newContainer.appendChild(selectButtonContainer);
