@@ -108,20 +108,61 @@ const getCharacterBackground = () => {
 }
 
 const getCharacterStats = (backgroundBroad, backgroundSpecific) => {
-    console.log("CHECKING TO SEE WHAT WE GET");
-    console.log("BACKGROUND BROAD", backgroundBroad);
-    console.log("BACKGROUND SPECIFIC", backgroundSpecific);
+    // console.log("CHECKING TO SEE WHAT WE GET");
+    // console.log("BACKGROUND BROAD", backgroundBroad);
+    // console.log("BACKGROUND SPECIFIC", backgroundSpecific);
+
+    interfaceElement.innerHTML = "<h3>What's your greatest Strength?</h3><h6>Adds one point to the selected stat</h6>";
+
+    let rowElement = document.createElement("div");
+    rowElement.classList.add("row", "align-items-center", "py-3");
+
+    let physiqueElement = document.createElement("div");
+    physiqueElement.classList.add("col-4", "text-center");
+    physiqueElement.innerHTML = `
+    <h5>Physique</h5>
+    <p>Determines your ability to lift heavy objects, move in an agile manner, and accomplish all feats realated to physical prowess.</p>
+    <button class="btn btn-dark btn-lg btn-block" style="width:100%; background-color: #800020; font-size: .7rem;" onclick="getCharacterSecondSkill('${backgroundBroad}', '${backgroundSpecific}', 2, 1, 1)">Select <b>Physique</b></button>
+    `;
+
+
+    rowElement.appendChild(physiqueElement);
+
+    let perceptionElement = document.createElement("div");
+    perceptionElement.classList.add("col-4", "text-center");
+    perceptionElement.innerHTML = `
+    <h5>Perception</h5>
+    <p>Your aptitude for noticing subtle and hidden details in your surroundings and in conversations with other people.</p>
+    <button class="btn btn-dark btn-lg btn-block" style="width:100%; background-color: #800020; font-size: .7rem;" onclick="getCharacterSecondSkill('${backgroundBroad}', '${backgroundSpecific}', 1, 2, 1)">Select <b>Perception</b></button>
+    `;
+
+
+    rowElement.appendChild(perceptionElement);
+
+    let willpowerElement = document.createElement("div");
+    willpowerElement.classList.add("col-4", "text-center");
+    willpowerElement.innerHTML = `
+    <h5>Willpower</h5>
+    <p>The ability to perservere in the midst of adversity. Provides defense against mental assaults and sanity drains.</p>
+    <button class="btn btn-dark btn-lg btn-block" style="width:100%; background-color: #800020; font-size: .7rem;" onclick="getCharacterSecondSkill('${backgroundBroad}', '${backgroundSpecific}', 1, 1, 2)">Select <b>Willpower</b></button>
+    `;
+
+
+    rowElement.appendChild(willpowerElement);
+
+    interfaceElement.appendChild(rowElement);
 }
 
 const getCharacterSecondSkill = (backgroundBroad, backgroundSpecific, physique, perception, willpower) => {
-
+    console.log("CHECKING TO SEE WHAT WE GET");
+    console.log("BACKGROUND BROAD", backgroundBroad);
+    console.log("BACKGROUND SPECIFIC", backgroundSpecific);
+    console.log("PHYSIQUE", physique);
+    console.log("PERCEPTION", perception);
+    console.log("WILLPOWER", willpower);
 }
 
 const getCharacterName = (backgroundBroad, backgroundSpecific, physique, perception, willpower, secondarySkill) => {
-
-}
-
-const getCharacterConfirmation = (backgroundBroad, backgroundSpecific, physique, perception, willpower, secondarySkill, name) => {
 
 }
 
