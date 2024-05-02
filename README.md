@@ -44,6 +44,17 @@ For now, I would like scenes to be treated like DAG nodes/vertices and connectio
 
 I would also like to have a way to keep track of character classes, stats, and skills so that I can test whether the edges I set up are working properly.
 
+#### CHARACTER: OPTIONS WITH OCCULT BACKGROUND & HIGH PERCEPTION
+
+![Example with all three options available](./screenshots/agent_occult_and_perception.png)
+
+#### SAME CHARACTER: OPTIONS WITH ONLY HIGH PERCEPTION
+
+![Example with only two options available](./screenshots/agent_perception.png)
+
+#### SAME CHARACTER: OPTIONS WITH NEITHER
+
+![Example with only default available](./screenshots/agent_default.png)
 
 ## HOW DOES IT WORK?
 
@@ -78,15 +89,17 @@ Before adding a connection between scenes, the DAG creates a hypothetical list o
 
 Kahn's topological sort is an algorithm used to traverse a DAG in a linear, sequential order. If Kahn's topological sort does not work, this means there is a cycle in the graph and therefore it is no a DAG.
 
-1) Queue all starting nodes (nodes without a parent)
+1) Get degrees for all child nodes.
 
-2) While this queue is not empty, take the first node from the queue. Find all eges that this node has. 
+2) Queue all starting nodes (nodes without a parent).
 
-3) If the node has no edges, we add to the list that we will be returning
+2) While this queue is not empty, take the first node from the queue. Decrement degrees. 
 
-4) Return the list of nodes in linear, sequential order
+3) If the node has no edges, we add to the list that we will be returning.
 
-If there are items left over, it means that there is a cycle in the graph and therefore it is not a DAG.
+4) Return the list of nodes in linear, sequential order.
+
+If there are items left over (ie. if there is an item in the map that has a degree higher than 0), it means that there is a cycle in the graph and therefore it is not a DAG.
 
 ### HOW DOES IT KEEP TRACK OF THE CURRENT SCENE
 
@@ -113,13 +126,22 @@ So, for example, if you have a perception of 1, and there's an edgeType of `perc
 Because my default writing anything is Cosmic Horror and I needed to throw something together in less than three days (I spent a long time trying to get the word processor DAG to display and abdanonned the idea pretty late in). Also, I'm borderline obsessed with waste management and trash, so that winds up leaking into everything I create / work on.
 
 
-## WHY FIVE SECOND MONOCHROME MS PAINT PORTRAITS?
+## WHY "ROTTSMOTH GULLY" / FIVE SECOND MONOCHROME MS PAINT PORTRAITS?
 
-Bro I had three days okay.
+Bro I had three days okay. (Also, I thought of "Rottswell" too late into the game. DANG IT.)
 
+## IF YOU ONLY HAD THREE DAYS WHY DID YOU MAKE A BILLION UNPLAYABLE CHARACTERS?
+
+Have you MET me?
 
 ## WHAT DOES THE ACTUAL DAG LOOK LIKE SO THAT I CAN DOUBLE-CHECK WHETHER YOUR EDGETYPES ARE WORKING AS INTENDED?
 
-Sure, here's a map:
+Sure!
 
-__will be added as soon as I actually go and add scenes__
+I want to see if I can add some more characters to this to make sure the Kahn Algorithm was implemented correctly and can handle multiple starting nodes (I THINK it does, but I want to add more complexity to make sure the DAG is robust), but here's what I have right now: 
+
+If I make any edits, I'll make sure to update the map here as well!
+
+#### AGENT GRAPH
+
+![Agent DAG Map](./screenshots/agent_dag_map.png)
