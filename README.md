@@ -1,7 +1,7 @@
 # Rottsmoth Gully
 ## An attempt at Non-Linear Story-Telling Using Directed Acyclic Graphs
 
-**LINK TO LIVE** xxx
+**LINK TO LIVE VERSION** [Play around with what I've got here](https://de-mark.github.io/rottsmoth_gully/)
 
 ![Example of the index](./screenshots/homepage.png)
 ![Example of character creation](./screenshots/example_character_creation.png)
