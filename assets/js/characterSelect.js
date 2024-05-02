@@ -7,6 +7,7 @@ const GET_SECONDARY_SKILL_DESCRIPTION = (secondarySkill) => {
 const CHARACTER_SELECT_JSON = [
     {
         "displayName":"The IRS Agent",
+        "finishedBeginningRoute":false,
         "imgName":"tax",
         "description":"You followed the reek of fraudulent numbers, falsified tax documents, and economic anomalies all the way to Rottsmoth Gully Industrial...",
         "stats": "+2 Perception",
@@ -21,6 +22,7 @@ const CHARACTER_SELECT_JSON = [
     },
     {
         "displayName":"The FBI Agent",
+        "finishedBeginningRoute":true,
         "imgName":"agent",
         "description":"After years of investigations, interrogations, and interstate travel, you've managed to track a group of depraved serial murderers down to Rottsmoth Gully...",
         "stats": "+1 Physique",
@@ -28,13 +30,14 @@ const CHARACTER_SELECT_JSON = [
         "skillName":"Classified",
         "skillDescription": "After years of cultivating relationships and climbing federal ranks, you have immediate access to the wealth of information collected by the government and the support of various government workers.",
         "backgroundGeneral": "federal",
-        "backgroundSpecific": "tax",
+        "backgroundSpecific": "agent",
         "getFinalPhysique": (d) => d + 1,
         "getFinalPerception": (d) => d + 0,
         "getFinalWillpower": (d) => d + 0
     },
     {
         "displayName":"The Environmental Engineer",
+        "finishedBeginningRoute":false,
         "imgName":"environment",
         "description":"When you were hired by Rottsmoth Gully Industrial to investigate alternative waste management strategies, you initially thought it was a dream come true...",
         "stats": "+1 Perception; +1 Willpower",
@@ -49,6 +52,7 @@ const CHARACTER_SELECT_JSON = [
     },
     {
         "displayName":"The Electrical Engineer",
+        "finishedBeginningRoute":false,
         "imgName":"electrical",
         "description":"You came to Rottsmoth Gully after the war to get away from people, figuring there would always be work for someone with your skillset...",
         "stats": "+1 Willpower",
@@ -63,6 +67,7 @@ const CHARACTER_SELECT_JSON = [
     },
     {
         "displayName":"The Thief",
+        "finishedBeginningRoute":false,
         "imgName":"thief",
         "description":"It was supposed to be a simple museum heist. Then the patron disappeared before you could deliver the artifact--which turned out to be cursed. Now, you're blacking up and waking up in Rottsmoth Gully of all places, wondering how you got there...",
         "stats": "+1 Physique; +1 Perception",
@@ -77,6 +82,7 @@ const CHARACTER_SELECT_JSON = [
     },
     {
         "displayName":"The Enforcer",
+        "finishedBeginningRoute":false,
         "imgName":"enforcer",
         "description":"Rottsmoth Gully has been a hideaway for your syndicate for ages. Its various waste management facilities provide ample opportunity for corpse disposal, stolen goods stashing, and scavenging.",
         "stats": "+1 Physique",
@@ -91,6 +97,7 @@ const CHARACTER_SELECT_JSON = [
     },
     {
         "displayName":"The Vision-Wracked Traveller",
+        "finishedBeginningRoute":false,
         "imgName":"vision",
         "description":"For the last few months, you've had non-stop nightmares about the world's final days and an otherworldy, eldritch creature sleeping beneath mountains of trash. Research into the landscape of these nightmares led you to Rottsmoth Gully...",
         "stats": "+2 Perception",
@@ -105,6 +112,7 @@ const CHARACTER_SELECT_JSON = [
     },
     {
         "displayName":"The Antiquarian",
+        "finishedBeginningRoute":false,
         "imgName":"antiquarian",
         "description":"Over the years, you've found more ancient artifacts and lost occult knowledge crammed into the Rottsmoth Gully dumpsters, junkyards, and MRFs than others have found over the past centuries in tombs and lost cities...",
         "stats": "+1 Perception",

@@ -31,13 +31,13 @@ class DAGNode {
 
     setTagline(newTagline) {
         if (newTagline){
-            this.getTagline = newTagline;
+            this.tagline = newTagline;
         }
     }
 
     setLocation(newLocation) {
         if (newLocation){
-            this.newLocation = newLocation;
+            this.location = newLocation;
         }
     }
 
@@ -148,32 +148,41 @@ class DAG {
     kahnTopologicalSort(proposedEdges=this.edges){
         let l = [];
         let edgeCopy = [...proposedEdges];
-        // We want a list of all the parentless nodes 
-        // NOTE: Should this be a set of all the nodes? Not just parents?
-        let allParents = new Set(proposedEdges.map((e) => e.parent));
-        let allChildren = new Set(proposedEdges.map((e) => e.child));
-        let s = [...allParents.difference(allChildren)];
+        let degrees = new Map();
+
+        // Creating a dictionary with each child and the number of degrees
+        for (let e of edgeCopy){
+            degrees.set(e.child, (degrees.get(e.child) || 0) + 1);
+        }
+
+        // Creating a list of starting nodes (nodes without parents)
+        let q = [];
+        for (let e of edgeCopy) {
+            if (!degrees.has(e.parent)) {
+                q.push(e.parent);
+            }
+        }
         
-        while (s.length > 0) {
-            let n = s[0];
-            s.splice(0, 1);
+        // Looping through the starting nodes and decrementing the degrees
+        while (q.length > 0) {
+            let n = q.shift();
             l.push(n);
 
             for (let e of edgeCopy){
-                if (e.parent == n) {
-                    let m = e.child;
-                    
-                    let idx = edgeCopy.indexOf(e);
-                    edgeCopy.splice(idx, 1);
-                    
-                    if (edgeCopy.filter((ed) => ed.child == m).length == 0) {
-                        s.push(m);
+                if (e.parent == n){
+                    let c = e.child;
+                    degrees.set(c, degrees.get(c) - 1);
+
+                    if (degrees.get(c) == 0) {
+                        q.push(c);
                     }
                 }
             }
         }
 
-        if (edgeCopy.length != 0){
+        // Checking to see if any nodes have degrees higher than 0
+        // If so, there is a cycle.
+        if ([...degrees.values()].some(d => d > 0)) {
             return -1;
         } else {
             return l;
@@ -198,6 +207,7 @@ class DAG {
         if (!sceneOne || !sceneTwo){
             // If the user didn't provide the ID of a scene, we don't want to add the "connection"
             // since it would corrupt the data
+            console.log("We didn't add this because one of the scenes could not be found");
             return;
         } else if (this.checkIfConnectionExists(sceneOneId, sceneTwoId)) {
             // If there's already an edge (or a reverse of this edge) we don't want to add it again
@@ -208,11 +218,10 @@ class DAG {
             // since we don't want a cycle
             console.log("We didn't add this because it would create a cycle");
             return;
-        }else {
+        } else {
             let newEdge = new DAGEdge(sceneOneId, sceneTwoId, edgeType, optionDisplay);
             this.edges.push(newEdge);
             console.log(edgeType, "edge between", sceneOneId, "and", sceneTwoId, "successfully added.");
-            console.log("Option will display as", optionDisplay);
         }
     }
 
