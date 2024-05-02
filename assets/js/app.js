@@ -29,6 +29,20 @@ const protag = new Protagonist();
 // physique_high >= 3
 // physique_mid >= 2
 
+
+// This is used to tell the player whether their stat is high or not
+// since in this game 3 is considered high--that's not typically the case
+// for these sorts of games.
+const isHigh = (statVal) => {
+    if (statVal >= 3 ) {
+        return "High";
+    } else if (statVal >= 2) {
+        return "Mid";
+    } else {
+        return "Low";
+    }
+}
+
 const initCharacterPanel = () => {
     characterPanelElement.innerHTML = `
     <div class="text-center">
@@ -46,9 +60,9 @@ const initCharacterPanel = () => {
             <div id="char-sanity-interior" class="bar-foreground"><p><span id="char-sanity-num">${protag.currSanity}/${protag.maxSanity}</span> Sanity</p></div>
         </div>
         <div class="char-stats-container">
-            <p id="char-physique-container"><b>Physique</b> <span id="char-physique-num">${protag.physique}</span></p>
-            <p id="char-perception-container"><b>Perception</b> <span id="char-perception-num">${protag.perception}</span></p>
-            <p id="char-willpower-container"><b>Willpower</b> <span id="char-willpower-num">${protag.willpower}</span></p>
+            <p id="char-physique-container"><b>Physique</b> <span id="char-physique-num">${isHigh(protag.physique)}</span></p>
+            <p id="char-perception-container"><b>Perception</b> <span id="char-perception-num">${isHigh(protag.perception)}</span></p>
+            <p id="char-willpower-container"><b>Willpower</b> <span id="char-willpower-num">${isHigh(protag.willpower)}</span></p>
         </div>
         <hr>
         <div id="character-skills">
@@ -188,20 +202,23 @@ const getCharacterSecondSkill = (backgroundBroad, backgroundSpecific, physique, 
 
 const getCharacterName = (backgroundBroad, backgroundSpecific, physique, perception, willpower, secondarySkill, secondarySkillDisplay) => {
     let charDetails = CHARACTER_SELECT_JSON.filter(c => c.backgroundSpecific == backgroundSpecific)[0];
-    
+    let finPhys = charDetails.getFinalPhysique(physique);
+    let finPer = charDetails.getFinalPerception(perception);
+    let finWill = charDetails.getFinalWillpower(willpower);
+
     interfaceElement.innerHTML = `
     <h3>What's your name?</h3>
     <div style="width: 100%; text-align:center">
         <img id="char-profile-pic" src="./assets/imgs/profile_pic_${charDetails.imgName}.png">
         <div class="row d-flex justify-content-evenly py-2">
             <div class="col-3">
-                <p><b>Physique</b> ${charDetails.getFinalPhysique(physique)}</p>
+                <p><b>Physique</b> ${isHigh(finPhys)} (${finPhys})</p>
             </div>
             <div class="col-3">
-                <p><b>Perception</b> ${charDetails.getFinalPerception(perception)}</p>
+                <p><b>Perception</b> ${isHigh(finPer)} (${finPer})</p>
             </div>
             <div class="col-3">
-                <p><b>Willpower</b> ${charDetails.getFinalWillpower(willpower)}</p>
+                <p><b>Willpower</b>  ${isHigh(finWill)} (${finWill})</p>
             </div>
         </div>
     </div>

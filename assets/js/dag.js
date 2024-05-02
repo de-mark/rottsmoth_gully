@@ -66,8 +66,7 @@ class DAGEdge {
 }
 
 class DAG {
-    constructor (seriesName="Untitled Series") {
-        this.seriesName = seriesName;
+    constructor () {
         this.currentLoc = undefined;
         this.vertices = [];
         this.edges = [];
