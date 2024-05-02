@@ -225,7 +225,7 @@ class DAG {
         }
     }
 
-    getAllScenePreviews(){
+    getAllScenes(){
         return this.vertices;
     }
 
