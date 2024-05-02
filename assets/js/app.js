@@ -59,7 +59,7 @@ const initCharacterPanel = () => {
         `
         
         if (protag.canUseGun){
-            characterPanelElement.innerHTML += "<p>Trained in firearms</p>";
+            characterPanelElement.innerHTML += "<p>Firearms</p>";
         }
 
 
@@ -108,10 +108,6 @@ const getCharacterBackground = () => {
 }
 
 const getCharacterStats = (backgroundBroad, backgroundSpecific) => {
-    // console.log("CHECKING TO SEE WHAT WE GET");
-    // console.log("BACKGROUND BROAD", backgroundBroad);
-    // console.log("BACKGROUND SPECIFIC", backgroundSpecific);
-
     interfaceElement.innerHTML = "<h3>What's your greatest Strength?</h3><h6>Adds one point to the selected stat</h6>";
 
     let rowElement = document.createElement("div");
@@ -124,7 +120,6 @@ const getCharacterStats = (backgroundBroad, backgroundSpecific) => {
     <p>Determines your ability to lift heavy objects, move in an agile manner, and accomplish all feats realated to physical prowess.</p>
     <button class="btn btn-dark btn-lg btn-block" style="width:100%; background-color: #800020; font-size: .7rem;" onclick="getCharacterSecondSkill('${backgroundBroad}', '${backgroundSpecific}', 2, 1, 1)">Select <b>Physique</b></button>
     `;
-
 
     rowElement.appendChild(physiqueElement);
 
@@ -147,37 +142,119 @@ const getCharacterStats = (backgroundBroad, backgroundSpecific) => {
     <button class="btn btn-dark btn-lg btn-block" style="width:100%; background-color: #800020; font-size: .7rem;" onclick="getCharacterSecondSkill('${backgroundBroad}', '${backgroundSpecific}', 1, 1, 2)">Select <b>Willpower</b></button>
     `;
 
-
     rowElement.appendChild(willpowerElement);
 
     interfaceElement.appendChild(rowElement);
 }
 
 const getCharacterSecondSkill = (backgroundBroad, backgroundSpecific, physique, perception, willpower) => {
-    console.log("CHECKING TO SEE WHAT WE GET");
-    console.log("BACKGROUND BROAD", backgroundBroad);
-    console.log("BACKGROUND SPECIFIC", backgroundSpecific);
-    console.log("PHYSIQUE", physique);
-    console.log("PERCEPTION", perception);
-    console.log("WILLPOWER", willpower);
+    interfaceElement.innerHTML = "<h3>Tell me something about yourself</h3><h6>Adds a new skill to your character</h6>";
+
+    let rowElement = document.createElement("div");
+    rowElement.classList.add("row", "align-items-center", "py-3");
+
+    let diverElement = document.createElement("div");
+    diverElement.classList.add("col-4", "text-center");
+    diverElement.innerHTML = `
+    <h5>Diver</h5>
+    <p>You come from a long line of divers who--without scuba gear--combed the bottom of the sea for seaweed, shellfish, and oysters. While your friends spent their weekends playing videogames, you were forced to master the art of unassisted ocean diving--perhaps this adventure will make you glad you did.</p>
+    <button class="btn btn-dark btn-lg btn-block" style="width:100%; background-color: #800020; font-size: .7rem;" onclick="getCharacterName('${backgroundBroad}', '${backgroundSpecific}', ${physique}, ${perception}, ${willpower}, 'diver', 'Diver')">Select <b>Diver</b></button>
+    `;
+
+    rowElement.appendChild(diverElement);
+
+    let demolitionElement = document.createElement("div");
+    demolitionElement.classList.add("col-4", "text-center");
+    demolitionElement.innerHTML = `
+    <h5>Demolitions</h5>
+    <p>In order to pay your way through college, you took on work with a demolitions crew. You have experience with destroying and breaking down even the strongest of structures--and, on a whim, you brought some tools of the trade with you.</p>
+    <button class="btn btn-dark btn-lg btn-block" style="width:100%; background-color: #800020; font-size: .7rem;" onclick="getCharacterName('${backgroundBroad}', '${backgroundSpecific}', ${physique}, ${perception}, ${willpower}, 'demo', 'Demolitions')">Select <b>Demolitions</b></button>
+    `;
+
+    rowElement.appendChild(demolitionElement);
+
+    let occultElement = document.createElement("div");
+    occultElement.classList.add("col-4", "text-center");
+    occultElement.innerHTML = `
+    <h5>Occult</h5>
+    <p>During your college days, you got involved in a really weird cult. You managed to get out, but the experience left a mark on you. You're able to recognize occult symbols, phrases, and partial pantheons.</p>
+    <button class="btn btn-dark btn-lg btn-block" style="width:100%; background-color: #800020; font-size: .7rem;" onclick="getCharacterName('${backgroundBroad}', '${backgroundSpecific}', ${physique}, ${perception}, ${willpower}, 'occult', 'Occult')">Select <b>Occult</b></button>
+    `;
+
+    rowElement.appendChild(occultElement);
+
+    interfaceElement.appendChild(rowElement);
 }
 
-const getCharacterName = (backgroundBroad, backgroundSpecific, physique, perception, willpower, secondarySkill) => {
-
+const getCharacterName = (backgroundBroad, backgroundSpecific, physique, perception, willpower, secondarySkill, secondarySkillDisplay) => {
+    let charDetails = CHARACTER_SELECT_JSON.filter(c => c.backgroundSpecific == backgroundSpecific)[0];
+    
+    interfaceElement.innerHTML = `
+    <h3>What's your name?</h3>
+    <div style="width: 100%; text-align:center">
+        <img id="char-profile-pic" src="./assets/imgs/profile_pic_${charDetails.imgName}.png">
+        <div class="row d-flex justify-content-evenly py-2">
+            <div class="col-3">
+                <p><b>Physique</b> ${charDetails.getFinalPhysique(physique)}</p>
+            </div>
+            <div class="col-3">
+                <p><b>Perception</b> ${charDetails.getFinalPerception(perception)}</p>
+            </div>
+            <div class="col-3">
+                <p><b>Willpower</b> ${charDetails.getFinalWillpower(willpower)}</p>
+            </div>
+        </div>
+    </div>
+        <div class="row align-items-center py-3">
+            <div class="col-2 align-items-center  text-center">
+                <h6>Name</h6>
+            </div>
+            <div class="col-10">
+                <input id="character-name-input" type="text" value="Danvers" style="width:100%;background-color: #71797E;border-radius:15px; padding: 5px;border: none" />
+            </div>
+        </div>
+        <div class="row align-tems-center py-3">
+            <div class="col-2 align-items-center  text-center">
+                <h6>Class</h6>
+            </div>
+            <div class="col-10">
+                <p><b>${charDetails.displayName.toUpperCase()}</b> ${charDetails.description}</p>
+            </div>
+        </div>
+        <div class="row align-tems-center py-3">
+            <div class="col-2 align-items-center  text-center">
+                <h6>Can Use Firearms?</h6>
+            </div>
+            <div class="col-10">
+                <p>${charDetails.guns ? "Yes" : "No"}</p>
+            </div>
+        </div>
+        <div class="row align-tems-center py-3">
+            <div class="col-2 align-items-center  text-center">
+                <h6>Skills</h6>
+            </div>
+            <div class="col-10">
+                <p><b>${charDetails.skillName.toUpperCase()}</b> ${charDetails.skillDescription}</p>
+                <p><b>${secondarySkillDisplay.toUpperCase()}</b> ${GET_SECONDARY_SKILL_DESCRIPTION(secondarySkill)}</p>
+            </div>
+        </div>
+        <button class="btn btn-dark btn-lg btn-block" style="width:100%; background-color: #800020; font-size: .7rem;" onclick="generateCharacter(${physique}, ${perception}, ${willpower}, '${backgroundBroad}', '${backgroundSpecific}', '${secondarySkill}')">Confirm Character Creation</button>
+    `;
 }
 
-const generateCharacter = (name="Danvers", 
-                           physique=2,
+const generateCharacter = (physique=2,
                            perception=1,
                            willpower=1,
                            backgroundBroad="traveller",
                            backgroundSpecific="vision",
                            secondarySkill="diving") => {
+    let name = document.getElementById("character-name-input").value;
     protag.setName(name);
     protag.setStats(physique, perception, willpower);
     protag.setClass(backgroundBroad, backgroundSpecific);
     protag.setSecondarySkill(secondarySkill);
     initCharacterPanel();
+    displayCurrentScene();
 }
 
 const generateExampleSeries = () => {
@@ -224,7 +301,6 @@ const nextScene = (nextSceneId) => {
 
 const displayCurrentScene = () => {
     interfaceElement.innerHTML = "";
-    // REVEALING CURRENT VERTIX AND OPTIONS
     let thisSceneMeta = exampleSeries.getCurrentScene();
 
     if (thisSceneMeta["error"]){
@@ -246,12 +322,7 @@ const displayCurrentScene = () => {
         interfaceSceneDiv.innerHTML = thisScene.scene;
         newInterface.appendChild(interfaceSceneDiv);
 
-        // interfaceElement.innerHTML = `<h2>${thisScene.title}</h2>
-        // <h5>${thisScene.location}</h5>
-        // <p>${thisScene.scene}</p>`
-
         if (sceneConnections.length > 0){
-            // interfaceElement.innerHTML += `<ol>`
             let interfaceOptionsDiv = document.createElement("div");
             interfaceOptionsDiv.classList.add("main-interface-options");
             interfaceOptionsDiv.innerHTML = "<h6>Options:</h6>";
@@ -296,6 +367,3 @@ const displayCurrentScene = () => {
 
 
 generateExampleSeries();
-// generateCharacter();
-// displayCurrentScene();
-

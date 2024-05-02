@@ -44,7 +44,8 @@ class Protagonist {
                     this.tagline = "When you were hired by Rottsmoth Gully Industrial to investigate alternative waste management strategies, you initially thought it was a dream come true...";
                     this.primarySkill = "Scientist";
                     this.primarySkillDescription = "Dedicating those long, sleepless nights to studying everything from geology to chemistry to microbiology and everything inbetween has finally paid off. You're able to notice things about the environment of Rottsmoth Gully that others may not."
-                    this.willpower += 2;
+                    this.willpower += 1;
+                    this.perception += 1;
                     this.canUseGun = false;
                 } else {
                     this.background = "electrical";

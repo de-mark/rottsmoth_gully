@@ -8,6 +8,33 @@ body {
     background-color: #000;
 }
 
+a {
+    color: #fff;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    font-weight: bolder;
+}
+
+a:hover {
+    color: #800020;
+    cursor: pointer;
+}
+
+.restart-link {
+    background-color: #800020;
+    border-radius: 5px;
+    color: #151b1f;
+    padding: .5rem;
+    font-size: 1.2rem;
+    font-weight: bolder;
+}
+
+.restart-link:hover {
+    background-color: transparent;
+    color: #800020;
+    cursor: pointer;
+}
+
 .container {
     margin-top: 25px;
     margin-bottom: 25px;
@@ -56,7 +83,7 @@ body {
     height: 30px;
     border-radius: 15px;
     width: 100%;
-    background-color: black;
+    background-color: #151b1f;
     padding: 5px;
     margin: 5px 0;
 }
@@ -67,7 +94,6 @@ body {
     border-radius: 15px;
     /* If not 100%*/
     /* border-radius: 15px 0 0 15px; */
-    background-color: steelblue;
     text-align: center;
     padding: 5px;
     font-size: .65rem;
@@ -78,14 +104,15 @@ body {
     margin: 0px;
     position: relative;
     top: -2.5px;
+    color: #fff;
 }
 
 #char-health-interior {
-    background-color: red;
+    background-color: #49111c;
 }
 
 #char-sanity-interior {
-    background-color: green;
+    background-color: #bc3908;
 }
 
 .char-stats-container {
