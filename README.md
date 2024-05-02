@@ -22,7 +22,7 @@ This is a Non-Linear story that I've thrown together using a Directed Acyclic Gr
 
 The story isn't even close to complete--I just wanted to experiment with using a DAG to accomplish navigating a non-linear story. 
 
-It's all written in vanilla JavaScript and I added some 5 second MS Paint doodles to boot. If I get the time later, I'd like to come back and finish this--but as programmers, we all know what those words mean. 
+It's all written in vanilla JavaScript within the span of 3 days and I added some 5 second MS Paint doodles to boot. If I get the time later, I'd like to come back and finish this--but as programmers, we all know what those words mean. 
 
 
 ### WHY USE A DAG?
