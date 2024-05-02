@@ -16,10 +16,6 @@ Since we had a limited amount of time to throw things together and designing a g
 
 Sorry again for the last minute change! Hopefully it's at least a bit fun to peruse through!
 
-Creating a Directed Acyclic Graph data structure so that I can use it in a Non-Linear Word Processor.
-
-Will be using JavaScript since the Non-Linear Word Processor will be written in JavaScript.
-
 ## WHAT IS THIS
 
 This is a Non-Linear story that I've thrown together using a Directed Acyclic Graph (DAG) in which dialog options open up depending on the character's stats, skills, and past options.
